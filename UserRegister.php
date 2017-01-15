@@ -122,33 +122,3 @@ echo form_close();
 
 
 
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-//window.alert(5 + 6);
-jQuery(document).ready(function($) {
-
-     if (window.history && window.history.pushState) {
-
-       $(window).on('popstate', function() {
-         var hashLocation = location.hash;
-         var hashSplit = hashLocation.split("#!/");
-         var hashName = hashSplit[1];
-
-         if (hashName !== '') {
-           var hash = window.location.hash;
-           if (hash === '') {
-             alert('Back button was pressed.');
-               window.location= 'userregView';
-               return false;
-           }
-         }
-       });
-
-       window.history.pushState('forward', null, './index');
-     }
-
-   });
-
-</script>
-</head>

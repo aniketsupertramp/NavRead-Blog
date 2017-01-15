@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-class HomeController extends CI_Controller {
+class HomeController extends MY_Controller  {
 
 
    function __construct(){
@@ -18,7 +18,7 @@ class HomeController extends CI_Controller {
 
          $this->load->library('session');
          $this->load->model('Home_model');
-         //$this->load->helper('uri');
+         //$this->load->helper('uri');   
 
 
 /*header("Cache-Control: no-store, must-revalidate, max-age=3");
@@ -26,14 +26,18 @@ header("Pragma: no-cache");*/
 //header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 
+   $this->load->library('pagination');
+
+
 
    }
 
 	public function index()
 	{  
-		  
+		   $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+    $this->layout_noArg();
         
-			$this->load->view('UserRegister');
+		//	$this->load->view('UserHomeView');
     
 
 	}
@@ -43,7 +47,9 @@ header("Pragma: no-cache");*/
 
     if($this->Home_model->_check_module_task_auth())
     {
-      $this->load->view('UserHomeView');
+      //$this->load->view('UserHomeView');
+       $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+      $this->layout_noArg();
      }
 
      else
@@ -83,8 +89,10 @@ $this->form_validation->set_rules($config);
 
 		if($this->form_validation->run()==FALSE)
 		{     
-			redirect('HomeController/userregView');
-
+			//redirect('HomeController/userregView');
+      // $this->load->view('UserRegister');
+       $this->middle = 'UserRegister'; // passing middle to function. change this for different views.
+      $this->layout_noArg();
 
 		}
 		else
@@ -101,13 +109,21 @@ $this->form_validation->set_rules($config);
             {
                  echo "You have been signed up. You may now log in.";
                  //redirect(base_url('/UserRegister'));
-                 redirect('HomeController/userregView');
+                // redirect('HomeController/userregView');
+                // $this->load->view('UserRegister');
+                   $this->middle = 'UserRegister'; // passing middle to function. change this for different views.
+                   $this->layout_noArg();
+
             }
             else
             {
               echo "Signup Failure.";
               //redirect(base_url('/UserRegister'));
-              redirect('HomeController/userregView');
+              //redirect('HomeController/userregView');
+             //$this->load->view('UserRegister');
+                $this->middle = 'UserRegister'; // passing middle to function. change this for different views.
+                  $this->layout_noArg();
+
             }
 
 
@@ -125,7 +141,10 @@ $this->form_validation->set_rules($config);
 
   if($this->Home_model->_check_module_task_auth())
   {
-     $this->load->view('UserHomeView');
+     //$this->load->view('UserHomeView');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
+
    }
 else
 {
@@ -162,6 +181,20 @@ else
      else
      {  
       */
+
+       if($this->Home_model->_check_module_task_auth())
+      {
+   
+       // $this->load->view('UserHomeView');
+         $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+         $this->layout_noArg();
+       } 
+
+       else{
+
+  // $this->session->sess_destroy();
+
+
         $this->load->library('form_validation');
 
         $config = array(
@@ -191,20 +224,17 @@ else
 
 		if($this->form_validation->run()==FALSE)
 		{     
-			 if($this->Home_model->_check_module_task_auth())
-      {
+			    
+      
+      
+      //$this->load->view('UserRegister');
+       $this->middle = 'UserRegister'; // passing middle to function. change this for different views.
+         $this->layout_noArg();
 
-           
-        $this->load->view('UserHomeView');
-       }     
-      else
-      {
-       //$this->load->view('UserRegister');
-
-        header('location: http://127.0.0.1/NavRead/index.php/HomeController/');
-        die;
+       // redirect('/HomeController/');
+     //  die;
  
-      } 
+       
       
 
 
@@ -215,15 +245,18 @@ else
   			 $email = $this->input->post('emailid') ; 
                     
 			 	    //$password =  $this->input->post('passwd') ;
+              
 
-	
+	            
               $this->session->set_userdata('email',$email);
 
                
               //$_SESSION['password'] = $password;
 
 
-            $this->load->view('UserHomeView',$this->session->userdata);
+            //$this->load->view('UserHomeView',$this->session->userdata);
+               $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+        $this->layout($this->session->userdata);
 
 
 
@@ -232,7 +265,7 @@ else
 		}
      
 
-  // }
+  }
 
   
 
@@ -246,8 +279,9 @@ else
 if($this->Home_model->_check_module_task_auth())
 { 
   
-  $this->load->view('UserHomeView');
-
+  //$this->load->view('UserHomeView');
+  $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+    $this->layout_noArg();
  }
 
  else
@@ -310,8 +344,9 @@ if($this->Home_model->_check_module_task_auth())
 
       if($this->form_validation->run()==FALSE)
 		{     
-			$this->load->view('UserHomeView');
-
+			//$this->load->view('UserHomeView');
+      $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+        $this->layout_noArg();
 
 		}
 		else
@@ -342,12 +377,16 @@ if($this->Home_model->_check_module_task_auth())
                     //echo 'mail sending failed';
                   }
 
-                 $this->load->view('UserHomeView');
+                 //$this->load->view('UserHomeView');
+                  $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+              $this->layout_noArg();
             }
             else
             {
               echo "Oops! Your blog could not be published at this moment.";
-              $this->load->view('UserHomeView');
+              //$this->load->view('UserHomeView');
+              $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+                $this->layout_noArg();
             }
 			
 
@@ -358,7 +397,10 @@ if($this->Home_model->_check_module_task_auth())
   else
       {
         //redirect(base_url('/UserRegister'));
-        redirect('HomeController/userregView');
+       // redirect('HomeController/userregView');
+        //$this->load->view('UserRegister');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
       }
   
   }
@@ -387,7 +429,10 @@ if($this->Home_model->_check_module_task_auth())
    else
       {
       //redirect(base_url('/UserRegister'));
-        redirect('HomeController/userregView');
+       // redirect('HomeController/userregView');
+        //$this->load->view('UserRegister');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
       }
    
   }
@@ -426,13 +471,14 @@ public function searchAction()
 
             $data['email'] = $this->session->userdata('email');
             
-                   
-             $data['search_mail'] = $this->input->get('search_mail');
 
+                    
+             $data['search_mail'] = $this->input->post('search_mail');
+           
            
             $result_fullname = $this->Home_model->searchBloggers_model($data);
 
-            if(isset($result_fullname))
+            if($result_fullname!=false&&isset($result_fullname))
             {
               ///////show search results  
             	//echo 'success';
@@ -442,19 +488,24 @@ public function searchAction()
                     $name = $result_data['name'];
                     $mail = $result_data['search_mail'];
 
-                    echo $result_data['name'];
+                   /* echo $result_data['name'];
                     echo nbs(3);
                     echo anchor('/HomeController/getBlogs/'.$mail.'/'.$name,'Read Blogs');
                     echo nbs(3);
                     echo anchor('/HomeController/subscribeAction/'.$mail.'/'.$name,'Subscribe Blogger');
-
-                    $this->load->View('UserHomeView');
+*/
+                   // $this->load->View('UserHomeView');
+                    $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+                      //$this->layout_noArg();
+                      $this->layout($result_data);
                      //redirect('/HomeController/searchAction');
             }
             else
             {
               echo "Sorry! We did not find any blogger with this mail.";
-              $this->load->view('UserHomeView');
+              //$this->load->view('UserHomeView');
+              $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+                $this->layout_noArg();
             }
            
 
@@ -467,7 +518,10 @@ public function searchAction()
 else
       {
         //redirect(base_url('/UserRegister'));
-        redirect('HomeController/userregView');
+       // redirect('HomeController/userregView');
+       // $this->load->view('UserRegister');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+         $this->layout_noArg();
       }
   
 
@@ -488,18 +542,54 @@ public function getBlogs()
  //echo $Blogger_name;
  //echo $Blogger_mail;
 
+//////////////////////////////////////
+
+
+$config = array();
+$config["base_url"] = base_url() . "index.php/HomeController/getBlogs/".$Blogger_mail."/".$Blogger_name;
+$total_row = $this->Home_model->record_count($Blogger_mail);
+/*echo $total_row;
+die;*/
+$config["total_rows"] = $total_row;
+$config["per_page"] = 3;
+$config['use_page_numbers'] = FALSE;
+$config['num_links'] = $total_row;
+$config['cur_tag_open'] = '&nbsp;<a class="current">';
+$config['cur_tag_close'] = '</a>';
+$config['next_link'] = 'Next';
+$config['prev_link'] = 'Previous';
+  $this->pagination->initialize($config);
+
+$data['links'] = $this->pagination->create_links();
+
+
+ ////////////////////////////////////
+
+
+if($this->uri->segment(5)){
+$page = ($this->uri->segment(5)) ;
+}
+else{
+$page = 0;
+}
 
 
  $result_array = array();
 
- $result_array = $this->Home_model->getBlogs_model($Blogger_mail,$Blogger_name);
+ $result_array = $this->Home_model->getBlogs_model($Blogger_mail,$Blogger_name,$config['per_page'],$page);
+
+/*$str_links = $this->pagination->create_links();    
+$data["links"] = explode('&nbsp;',$str_links );*/
+// $data["links"] =
+
+
 
  /*if($result_array)
      echo "success";
  else
      echo "failure";   
 */
-
+ 
  if(!empty($result_array))
  {
 
@@ -525,10 +615,13 @@ public function getBlogs()
      $i++;
  }
  
+ 
     $data['temp_array'] = $temp;
     $data['Blogger_name'] = $Blogger_name;
  
-   $this->load->view('BlogView',$data);
+   //$this->load->view('BlogView',$data);
+    $this->middle = 'BlogView'; // passing middle to function. change this for different views.
+        $this->layout($data);
 
     //*/
  }    
@@ -544,7 +637,10 @@ public function getBlogs()
 else
       {
        //redirect(base_url('/UserRegister'));
-        redirect('HomeController/userregView');
+       // redirect('HomeController/userregView');
+        //$this->load->view('UserHomeView');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
       }
 
 }
@@ -597,7 +693,10 @@ else{
 else
       {
         //redirect(base_url('/UserRegister'));
-        redirect('HomeController/userregView');
+       // redirect('HomeController/userregView');
+        //$this->load->view('UserRegister');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
       }
 
 }
@@ -613,19 +712,25 @@ $this->session->sess_destroy();
     //$this->cache->clean();
   
    //redirect(base_url('/UserRegister'));
-    redirect('HomeController/userregView');
-
+   // redirect('HomeController/userregView');
+//$this->load->view('UserRegister');
+$this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+         $this->layout_noArg();
    }
 
 
   public function userhomeView()
   {
-   $this->load->view('UserHomeView');
+   //$this->load->view('UserHomeView');
+    $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
   }
 
   public function userregView()
   {
-   $this->load->view('UserRegister');
+   //$this->load->view('UserRegister');
+    $this->middle = 'UserRegister'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
   }
 
 }

@@ -34,6 +34,8 @@ class Home_model extends CI_Model {
 
         
 
+        
+
 
     }
 
@@ -214,7 +216,7 @@ function searchBloggers_model($data)
 
  $search_result_row  = $query_searchUser->row(); 
 
-  if(isset($search_result_row)){
+  if($query_searchUser->num_rows()>0){
             //eturn true;
           return $search_result_row->fullname;
           
@@ -232,14 +234,23 @@ function searchBloggers_model($data)
 
 
 
-function getBlogs_model($Blogger_mail,$Blogger_name)
+function record_count($Blogger_mail)
+{
+  $sql = "select count(*) from userblog where email = ?";
+ $query = $this->db->query($sql,array($Blogger_mail));
+
+ return $query->result()[0]->count;
+
+}
+
+function getBlogs_model($Blogger_mail,$Blogger_name,$limit,$start)
 {
 
 $blog_results = array();
 $i = 0;
  
- $sql = "select * from userblog where email = ?";
- $query = $this->db->query($sql,array($Blogger_mail));
+ $sql = "select * from userblog where email = ? limit ? offset ?";
+ $query = $this->db->query($sql,array($Blogger_mail,$limit,$start));
    
 /*foreach ($query->result() as $row)
 {       return true;
