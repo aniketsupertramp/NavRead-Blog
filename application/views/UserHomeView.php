@@ -29,6 +29,8 @@ margin:60px;
 
 
 <div style="height:500px; width:100%; border:2px solid #000; float:left;">
+
+
 <?php
 
 
@@ -64,6 +66,8 @@ if(isset($name)&&isset($search_mail))
                     echo anchor('/HomeController/getBlogs/'.$search_mail.'/'.$name,'Read Blogs');
                     echo nbs(3);
                     echo anchor('/HomeController/subscribeAction/'.$search_mail.'/'.$name,'Subscribe Blogger');
+                    echo nbs(3);
+                    echo anchor('/HomeController/get_tcpdf/'.$search_mail.'/'.$name,'Print Blogs');
                     echo br(2);
 }
 

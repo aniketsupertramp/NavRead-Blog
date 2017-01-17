@@ -346,6 +346,17 @@ return true;
 }
 
 
+function getBlogs_all_model($Bloggermail)
+{
+   $sql = "select * from userblog where email = ?";
+ $query = $this->db->query($sql,array($Bloggermail));
+
+
+return $query->result_array();
+
+}
+
+
 
 }
 

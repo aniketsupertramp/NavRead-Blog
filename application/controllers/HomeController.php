@@ -733,6 +733,115 @@ $this->middle = 'UserHomeView'; // passing middle to function. change this for d
           $this->layout_noArg();
   }
 
+  public function get_tcpdf() {
+
+
+    if($this->Home_model->_check_module_task_auth())
+ {
+
+ $Blogger_mail =  urldecode($this->uri->segment(3));
+ $Blogger_name =   urldecode($this->uri->segment(4));
+
+
+  $this->load->library('Pdf');
+    $obj_pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    
+$obj_pdf->SetCreator(PDF_CREATOR);
+$title = "PDF Report";
+$obj_pdf->SetTitle($title);
+//$obj_pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $title, PDF_HEADER_STRING);
+$obj_pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$obj_pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$obj_pdf->SetDefaultMonospacedFont('helvetica');
+$obj_pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$obj_pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+$obj_pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$obj_pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+$obj_pdf->SetFont('helvetica', '', 9);
+$obj_pdf->setFontSubsetting(false);
+$obj_pdf->AddPage();
+
+
+  $blog_result = $this->Home_model->getBlogs_all_model($Blogger_mail);
+ /* print_r($blog_result);
+  die();*/
+  /////////////////////////////////////
+ //$content = '<html><body>';
+
+ //ob_start();
+
+ //echo '<html><body>';
+
+   if(!empty($blog_result))
+ {
+
+ // $data = array(); 
+
+  //$row = array();
+
+  $i =0;
+
+  //echo $result_array[0]->blog_topic;
+
+  foreach ($blog_result as $row) {
+
+     
+    // $content =  $content + '<div>'.$row['blog_topic'].'<br/>'.$row['content'].'</div><br/><br/>' ;
+  
+   //echo '<div>'.$row['blog_topic'].'<br/>'.$row['content'].'</div><br/><br/>';   
+
+     $temp[$i]['blog_topic'] = $row['blog_topic']; 
+     $temp[$i]['content'] = $row['content']; 
+
+     $i++;
+ }
+ 
+
+    $data['temp_array'] = $temp;
+    $data['Blogger_name'] = $Blogger_name;
+     $content = $this->load->view('blog_printView',$data,true);
+ 
+ }    
+ 
+ else{
+  $content = '<html>No result found.</html>';
+ //$content =  $content + 'No results found.(May be the user has not blogged yet.)';
+ // echo 'No results found.(May be the user has not blogged yet.)';
+
+ }
+
+
+//$content = $content + "</body></html>";
+// echo '</body></html>';
+
+  //////////////////////////////////////
+    // ob_start();
+  
+   //$content = ob_get_contents();
+
+    // we can have any view part here like HTML, PHP etc
+  //  $content = $this->load->view('BlogView','',true);
+//ob_end_clean();
+
+//$obj_pdf->write(5,$content);
+
+$obj_pdf->writeHTML($content, true, false, true, false, '');
+$obj_pdf->Output('output.pdf', 'I');
+
+    }
+
+    else
+      {
+      //redirect(base_url('/UserRegister'));
+       // redirect('HomeController/userregView');
+        //$this->load->view('UserRegister');
+        $this->middle = 'UserHomeView'; // passing middle to function. change this for different views.
+          $this->layout_noArg();
+      }
+    
+    }
+
+
 }
 
 

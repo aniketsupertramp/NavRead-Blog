@@ -1,5 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+//ob_start();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
